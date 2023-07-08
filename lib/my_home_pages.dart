@@ -9,7 +9,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   List<Map<String, dynamic>> foundCountryList = [];
   TextEditingController searchController = TextEditingController();
 
@@ -24,7 +23,10 @@ class _MyHomePageState extends State<MyHomePage> {
     if (enterKeyword.isEmpty) {
       result = countryCodeList1;
     } else {
-      result = countryCodeList1.where((user) => user["name"].toLowerCase().contains(enterKeyword.toLowerCase())).toList();
+      result = countryCodeList1
+          .where((user) =>
+              user["name"].toLowerCase().contains(enterKeyword.toLowerCase()))
+          .toList();
     }
     setState(() {
       foundCountryList = result;
@@ -50,31 +52,34 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 30,
             ),
             Expanded(
-              child:foundCountryList.isEmpty ?  const CouponsResultNotFoundPages() : ListView.builder(
-                  itemCount: foundCountryList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      onTap: (){
-                        print('Select Country ${foundCountryList[index]["name"]}');
-                      },
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.transparent,
-                        child: Text(
-                          foundCountryList[index]["emoji"].toString(),
-                          style: const TextStyle(fontSize: 30),
-                        ),
-                      ),
-                      title: Text(
-                        foundCountryList[index]["name"].toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text(
-                        foundCountryList[index]["code"].toString(),
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                    );
-                  }),
+              child: foundCountryList.isEmpty
+                  ? const SearchContainer() 
+                  : ListView.builder(
+                      itemCount: foundCountryList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            print(
+                                'Select Country ${foundCountryList[index]["name"]}');
+                          },
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.transparent,
+                            child: Text(
+                              foundCountryList[index]["emoji"].toString(),
+                              style: const TextStyle(fontSize: 30),
+                            ),
+                          ),
+                          title: Text(
+                            foundCountryList[index]["name"].toString(),
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          subtitle: Text(
+                            foundCountryList[index]["code"].toString(),
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        );
+                      }),
             )
           ],
         ),
@@ -83,10 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
-class CouponsResultNotFoundPages extends StatelessWidget {
-  const CouponsResultNotFoundPages({Key? key}) : super(key: key);
+class SearchContainer extends StatelessWidget {
+  const SearchContainer({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,16 +99,21 @@ class CouponsResultNotFoundPages extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: const [
-       Icon(Icons.search,size: 100,),
+        Icon(
+          Icons.search,
+          size: 100,
+        ),
         SizedBox(height: 20),
-        Text('Country not found',style: TextStyle(fontSize: 36,fontWeight: FontWeight.w700,color: Colors.black),),
+        Text(
+          'Country not found',
+          style: TextStyle(
+              fontSize: 36, fontWeight: FontWeight.w700, color: Colors.black),
+        ),
         SizedBox(height: 20),
       ],
     );
   }
 }
-
-
 
 //Search Filed In flutter
 // class SearchScreen extends StatefulWidget {
@@ -184,4 +194,3 @@ class CouponsResultNotFoundPages extends StatelessWidget {
 //
 //   SearchResult(this.title, this.description);
 // }
-
